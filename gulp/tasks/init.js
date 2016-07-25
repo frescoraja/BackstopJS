@@ -11,7 +11,7 @@ var paths = require('../util/paths');
 
 //MANAGE DEPENDENCIES
 gulp.task('init',function(cb){
-
+  
   //load missing bower components
   // if(!fs.existsSync(paths.comparePath+'/bower_components')){
   //   console.log('\nBackstopJS needs to update bower_components, please hang on...\n');

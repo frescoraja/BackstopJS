@@ -56,7 +56,6 @@ function capturePageSelectors(url,scenarios,viewports,bitmaps_reference,bitmaps_
     screenshotNow = new Date(),
     screenshotDateTime = screenshotNow.getFullYear() + pad(screenshotNow.getMonth() + 1) + pad(screenshotNow.getDate()) + '-' + pad(screenshotNow.getHours()) + pad(screenshotNow.getMinutes()) + pad(screenshotNow.getSeconds());
 
-
   var consoleBuffer = '';
   var scriptTimeout = 20000;
 
@@ -168,7 +167,6 @@ function capturePageSelectors(url,scenarios,viewports,bitmaps_reference,bitmaps_
           var test_FP       = bitmaps_test + '/' + screenshotDateTime + '/' + fileName;
 
           var filePath      = (isReference)?reference_FP:test_FP;
-
 
           if(o === "body:noclip" || o === "document") {
             casper.capture(filePath);

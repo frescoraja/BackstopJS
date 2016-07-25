@@ -1,20 +1,32 @@
 var path = require('path');
 var fs = require('fs');
 var argv = require('yargs').argv;
-
 var defaultPort = 3001;
 var defaultConfigPath = '../../backstop.json';
+var defaultConfigJSPath = '../../backstop.js';
 
 var paths = {};
 paths.portNumber = defaultPort;
 paths.ci = {
     format: 'junit',
-    testReportFileName: 'xunit',
     testSuiteName: 'BackstopJS'
 };
 
 // BACKSTOP MODULE PATH
 paths.backstop                      = path.join(__dirname, '../..');
+
+function getBackstopJSConfigPath() {
+  var jsConfigPathArg = argv.jsConfig || null;
+  if (jsConfigPathArg) {
+    var isAbsolutePath = jsConfigPathArg.charAt(0) === '/';
+    var jsConfigPath = isAbsolutePath ? jsConfigPathArg : path.join(paths.backstop, jsConfigPathArg);
+    if(!fs.existsSync(jsConfigPath)) {
+      throw new Error('Couldn\'t resolve JS backstop config generator file');
+    }
+    return jsConfigPath;
+  }
+  return path.join(paths.backstop, defaultConfigJSPath);
+}
 
 function getBackstopConfigFileName() {
   var configPathArg = argv.backstopConfigFilePath || argv.configPath || null;
@@ -30,6 +42,7 @@ function getBackstopConfigFileName() {
 }
 // BACKSTOP CONFIG PATH
 paths.backstopConfigFileName = getBackstopConfigFileName();
+paths.backstopJSConfigPath = getBackstopJSConfigPath();
 
 // BITMAPS PATHS -- note: this path is overwritten if config files exist.  see below.
 paths.bitmaps_reference             = paths.backstop + '/bitmaps_reference';
@@ -81,11 +94,7 @@ if(fs.existsSync(paths.activeCaptureConfigPath)){
   paths.casperFlags = config.casperFlags || null;
   paths.engine = config.engine || null;
   paths.report = config.report || null;
-  paths.ciReport = config.ci ? {
-    format: config.ci.format || paths.ci.format,
-    testReportFileName: config.ci.testReportFileName || paths.ci.testReportFileName,
-    testSuiteName: config.ci.testSuiteName || paths.ci.testSuiteName
-  } : paths.ci;
+  paths.ciReport = config.ci || paths.ci;
 }
 
 paths.compareReportURL = 'http://localhost:' + paths.portNumber + '/compare/';

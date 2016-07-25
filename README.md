@@ -6,8 +6,68 @@
 
 BackstopJS automates CSS regression testing of your responsive web UI by comparing DOM screenshots at various viewport sizes.
 
-**Features:** Plays nice with multiple config files – Simulate user interactions with CasperJS scripts – Fast inline-CLI reports – detailed in-browser reports – CI Integration with junit reports – Test html5 elements like webfonts and flexbox – also plays nice with source control.
+**Features:** Plays nice with multiple config files – Simulate user interactions with CasperJS scripts – Fast inline-CLI reports – detailed in-browser reports – Test html5 elements like webfonts and flexbox – also plays nice with source control.
 
+
+
+
+## News
+
+
+<!--
+To try the new feature, install the beta version...
+$ npm install garris/backstopjs#master
+-->
+
+
+
+
+
+### Version 1.3.2 available now
+[Please file questions, comments or issues here](https://github.com/garris/BackstopJS/issues).
+
+####Version 1.3.2 adds CI Integration with junit reports and some nice to haves
+- take screenshots of your entire document
+- React app integration [check out the example](https://github.com/garris/BackstopJS/tree/master/test/simpleReactApp).
+
+
+####Version 1.1
+- reliability fixes plus a handful of improvements to close out the original roadmap.
+- Simplified installation -- just `npm install backstopjs` and you're ready to go!
+- All `Gulp` commands have been migrated to `npm run <command>` format for better compatibility!
+- now add logic and comments to your configs (optional JS based configs)
+- plays nice with other local services (change the BackstopJS port)
+
+####Version 0.9.0
+- Plays nice with multiple config files (setting the config file path)
+
+####Version 0.8.0
+- Simulate user interactions with CasperJS scripts
+
+####Version 0.7.0
+- Fast CLI reporting
+
+####Version 0.6.0
+- configurable screenshot locations. See *moving the bitmap directories* below.
+- SlimerJS support. See *changing the rendering engine* below.
+
+
+
+
+## Tutorials and Commentary
+
+- A lovely article on [Making Visual Regression Useful](https://medium.com/@philgourley/making-visual-regression-useful-acfae27e5031#.y3mw9tnxt) by [Phillip Gourley](https://medium.com/@philgourley?source=post_header_lockup)
+
+- Visual regression testing article on [css-tricks.com](http://css-tricks.com/automating-css-regression-testing/)
+
+- Automated regression testing for AngularJS (and other) web-apps -- article on [DWB](http://davidwalsh.name/visual-regression-testing-angular-applications)
+
+- Want to add BackstopJS to your existing *gulp* build?  Turns out to be pretty easy – use **gulp-chug**. Learn how in this article by [Filip Bartos](http://blog.bartos.me/css-regression-testing/).
+
+- *Grunt fans* -- check out [grunt-backstop](https://github.com/ddluc/grunt-backstop) and this [very nicely written article by Joe Watkins](http://joe-watkins.io/css-visual-regression-testing-with-grunt-backstopjs/)
+
+
+- BackstopJS brochure at [http://BackstopJS.org/](http://garris.github.io/BackstopJS/).
 
 ## The BackstopJS workflow
 
@@ -17,28 +77,7 @@ BackstopJS automates CSS regression testing of your responsive web UI by compari
 4. Run a test. BackstopJS creates a set of *test* screenshots and compares them with the *reference screenshots* you made in step 2 above. Any unwanted/unforeseen changes show up in a nice report.
 
 
-
-
-## Tutorials, Extensions and more...
-
-
-- Visual regression testing tutorial [css-tricks.com](http://css-tricks.com/automating-css-regression-testing/)
-
--  A lovely article on [Making Visual Regression Useful](https://medium.com/@philgourley/making-visual-regression-useful-acfae27e5031#.y3mw9tnxt) by [Phillip Gourley](https://medium.com/@philgourley?source=post_header_lockup)
-
-- Automated regression testing for AngularJS (and other) web-apps -- article on [DWB](http://davidwalsh.name/visual-regression-testing-angular-applications)
-
-- Want to add BackstopJS to your existing *gulp* build?  Turns out to be pretty easy – use [gulp-chug](https://github.com/robatron/gulp-chug). Learn how in this article by [Filip Bartos](http://blog.bartos.me/css-regression-testing/).
-
-- *Grunt fans* -- check out [grunt-backstop](https://github.com/ddluc/grunt-backstop) and this [very nicely written article by Joe Watkins](http://joe-watkins.io/css-visual-regression-testing-with-grunt-backstopjs/)
-
-
-- Generate a BackstopJS configuration file from sitemap.xml with [BackstopJS Scenarios Constructor](https://github.com/enzosterro/bscm/) by [Enzo Sterro](https://github.com/enzosterro)
-
-
-- BackstopJS brochure at [http://BackstopJS.org/](http://garris.github.io/BackstopJS/).
-
-
+---
 
 ##Installation
 
@@ -198,6 +237,28 @@ In the following case, BackstopJS would wait for one second after the string `ba
 }
 ```
 
+<!--
+####set HTTP cookie for login-required pages
+
+The `cookiesJsonFile` property enables you to add HTTP cookie for capturing login-required pages.
+
+```json
+"cookiesJsonFile": "./path/to/cookies.json"
+```
+
+The `cookiesJsonFile` file should have this format.
+
+```json
+[
+  {
+    "name": "mycookie",
+    "value": "1",
+    "domain": "localhost",
+    "path": "/"
+  }
+]
+```
+ -->
 
 ### Dealing with dynamic content
 
@@ -243,7 +304,7 @@ _Note: This is requred if you want to test an entire document layout with a `hei
 
 
 
-### Testing across different environments
+### Grabbing screens from different environments
 Comparing against different environments is easy. (e.g. compare a production environment against a staging environment).
 
 To do this, add a `referenceUrl` to your scenario configuration. When running `$ npm run test` BackstopJS will use the `url` for screen grabs.  When running `$ npm run reference` BackstopJS will check for `referenceUrl` and use that if it's there. Otherwise it will use `url` for both.
@@ -366,13 +427,12 @@ The regression test report will be generated in the JUnit format and the report 
 
 You may customize the testsuite name and/or a report file (xunit.xml) path to your build report directory by using the below configuration overrides,
 
-```js
+```json
 "paths": {
        "ci_report" :  "../../backstop_data/ci_report"
 },
 "ci": {
       "format" :  "junit" ,
-      "testReportFileName": "myproject-xunit", // in case if you want to override the default filename (xunit.xml)
       "testSuiteName" :  "backstopJS"
 },
 ```
@@ -441,9 +501,11 @@ Please note: these file paths are relative to your `./node_modules/backstopjs/` 
 ```
 
 ### Changing the rendering engine (version 0.6.0+)
-BackstopJS supports using PhantomJS or SlimerJS for web app rendering. (With thanks to CasperJS for doing the heavy lifting here.)
+BackstopJS supports using PhantomJS or SlimerJS (With thanks to CasperJS for doing the heavy lifting here.)
 
-First, be sure to have SlimerJS installed. From your root directory run...
+PhantomJS, the default rendering engine, does not correctly interpret flexbox and web fonts -- so if you are using those things in your app you will be way more happy using SlimerJS. Here is how to do that...
+
+First, install SlimerJS. From your root directory run...
 
 ```sh
 $ sudo npm install -g slimerjs
@@ -536,52 +598,6 @@ $ npm run stop
 
 ---
 
-
-## Release History
-
-
-<!--
-To try the new feature, install the beta version...
-$ npm install garris/backstopjs#master
--->
-
-
-
-
-
-### Version 1.3.2 available now
-[Please file questions, comments or issues here](https://github.com/garris/BackstopJS/issues).
-
-####Version 1.3.2 adds CI Integration with junit reports and some nice to haves
-- take screenshots of your entire document
-- React app integration [check out the example](https://github.com/garris/BackstopJS/tree/master/test/simpleReactApp).
-
-
-####Version 1.1
-- reliability fixes plus a handful of improvements to close out the original roadmap.
-- Simplified installation -- just `npm install backstopjs` and you're ready to go!
-- All `Gulp` commands have been migrated to `npm run <command>` format for better compatibility!
-- now add logic and comments to your configs (optional JS based configs)
-- plays nice with other local services (change the BackstopJS port)
-
-####Version 0.9.0
-- Plays nice with multiple config files (setting the config file path)
-
-####Version 0.8.0
-- Simulate user interactions with CasperJS scripts
-
-####Version 0.7.0
-- Fast CLI reporting
-
-####Version 0.6.0
-- configurable screenshot locations. See *moving the bitmap directories* below.
-- SlimerJS support. See *changing the rendering engine* below.
-
-
----
-
-
-
 ##Backstory:
 BackstopJS is a useful wrapper around the very fabulous [Resemble.js](https://github.com/Huddle/Resemble.js) component written by [James Cryer](https://github.com/jamescryer). Other implementations of Resemble.js, namely [PhantomCSS](https://github.com/Huddle/PhantomCSS) require writing long form [CasperJS](http://casperjs.org) tests -- which is of course great for testing complex UI interactions –- but kind of cumbersome for more simple applications like static CMS templates or lots and lots of app states at different screen sizes.
 
@@ -596,7 +612,7 @@ BackstopJS was created by [Garris Shipon](expanded.me) during the [Art.com labs]
 ...
 
 ## Many many thanks to [all the contributors](https://github.com/garris/BackstopJS/graphs/contributors) with special thanks to...
-- [Suresh Kumar. M](https://github.com/garris/BackstopJS/commits/master?author=nobso) for help on the 1.3.2 release
+- [Shuresh KM](https://github.com/garris/BackstopJS/commits/master?author=nobso) for help on the 1.3.2 release
 - [Klaus Bayrhammer](https://github.com/klausbayrhammer) for all the incredible effort leading up to 1.0 -- the cli reports and compatibility fixes are awesome!
 - [Evan Lovely](https://github.com/EvanLovely) and [Klaus Bayrhammer](https://github.com/klausbayrhammer) for help on the 0.9.0 release
 - [Robert O'Rourke](https://github.com/sanchothefat) for help on the 0.8.0 release
