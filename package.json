@@ -1,6 +1,6 @@
 {
   "name": "fw-backstopjs",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "BackstopJS: Catch CSS curveballs.",
   "scripts": {
     "genConfig": "gulp genConfig",
