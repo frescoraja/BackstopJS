@@ -1,5 +1,5 @@
 var path = require('path');
-var fs = require('fs');
+var fs = require('fs-extra');
 var argv = require('yargs').argv;
 var defaultPort = 3001;
 var defaultConfigPath = '../../backstop.json';
@@ -73,8 +73,13 @@ paths.activeCaptureConfigPath       = '';
 if(fs.existsSync(paths.backstopConfigFileName)){
   console.log('\nBackstopJS Config loaded at location', paths.backstopConfigFileName);
   paths.activeCaptureConfigPath = paths.backstopConfigFileName;
-}else{
-  console.log('\nConfig file not found.');
+}else if(fs.existsSync(paths.backstopJSConfigPath)){
+  console.log('\nConfig file not found. Generating new one from JS config.');
+  var newConfig = require(paths.backstopJSConfigPath);
+  fs.outputJsonSync(paths.backstopConfigFileName, newConfig);
+  paths.activeCaptureConfigPath = paths.backstopConfigFileName;
+}else {
+  console.log('Config file not found, JS config not found.');
   console.log('\n`$ npm run genConfig` generates a handy configuration boilerplate file at: `' + paths.backstopConfigFileName + '`. (Will overwrite existing files.)\n')
   paths.activeCaptureConfigPath = paths.captureConfigFileNameDefault;
 }
