@@ -2,6 +2,7 @@ var gulp   = require('gulp');
 var rename = require('gulp-rename');
 var paths  = require('../util/paths');
 var argv   = require('yargs').argv;
+var fsx    = require('fs-extra');
 /**
  * Copies a boilerplate config file to the current config file location.
  */
