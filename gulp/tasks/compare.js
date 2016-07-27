@@ -26,7 +26,7 @@ gulp.task('compare', function (done) {
 
             // if the test report is enabled in the config
             if (testSuite) {
-                var reportFileName = paths.ciReportOpts.testReportFileName + '.xml' || 'xunit.xml';
+                var reportFileName = paths.ciReportOpts.reportFileName ? paths.ciReportOpts.reportFileName + 'xml' : 'xunit.xml';
                 junitWriter.save(path.join(paths.ci_report_path, reportFileName), function() {
                     console.log('\x1b[32m', 'Regression test report file ('+ reportFileName + ') is successfully created.', '\x1b[0m');
                 });

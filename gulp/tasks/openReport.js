@@ -1,4 +1,5 @@
 var gulp  = require('gulp');
+var rename = require('gulp-rename');
 var open  = require("gulp-open");
 var isWin = require('../util/isWin');
 var paths = require('../util/paths');
@@ -14,16 +15,17 @@ gulp.task("openReport", function(){
   console.log('Opening report -> ',paths.compareReportURL + '\n');
 
   var options = {
-    url: paths.compareReportURL
-    ,app: isWin ? "chrome" : "Google Chrome"
+    url: paths.compareReportURL,
+    app: isWin ? "chrome" : "Google Chrome"
   };
 
   // cache bitmaps_reference files locally
-  gulp.src(paths.bitmaps_reference + '/**/*')
+  gulp.src(paths.bitmaps_reference + '/**/*.png')
+    .pipe(rename({dirname: ''}))
     .pipe(gulp.dest(referenceDir));
 
   // cache bitmaps_test files locally
-  gulp.src(paths.bitmaps_test + '/**/*')
+  gulp.src(paths.bitmaps_test + '/**/*.png')
     .pipe(gulp.dest(testDir));
 
 
@@ -31,7 +33,7 @@ gulp.task("openReport", function(){
     .pipe(jeditor(function(json) {
       json.compareConfig.testPairs.forEach(function(item){
         var rFile = referenceDir + item.reference.split('/').slice(-1)[0];
-        var tFile = testDir + item.test.split('/').slice(-2).join('/');
+        var tFile = testDir + item.test.split('/').slice(-3).join('/');
         item.local_reference = rFile;
         item.local_test = tFile;
       });
