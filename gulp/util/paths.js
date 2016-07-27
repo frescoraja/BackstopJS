@@ -7,7 +7,7 @@ var defaultConfigJSPath = '../../backstop.js';
 
 var paths = {};
 paths.portNumber = defaultPort;
-paths.ci = {
+paths.ciReportOpts = {
     format: 'junit',
     testSuiteName: 'BackstopJS'
 };
@@ -34,7 +34,7 @@ function getBackstopConfigFileName() {
     var isAbsolutePath = configPathArg.charAt(0) === '/';
     var configPath = isAbsolutePath ? configPathArg : path.join(paths.backstop, configPathArg);
     if(!fs.existsSync(configPath)) {
-      throw new Error('Couldn\'t resolve backstop config file');
+      console.log('Couldn\'t resolve backstop config file');
     }
     return configPath;
   }
@@ -49,7 +49,7 @@ paths.bitmaps_reference             = paths.backstop + '/bitmaps_reference';
 paths.bitmaps_test                  = paths.backstop + '/bitmaps_test';
 
 // Continuous Integration (CI) report
-paths.ci_report                     = paths.backstop + '/ci_report';
+paths.ci_report_path                = paths.backstop + '/ci_report';
 
 // COMPARE PATHS -- note: compareConfigFileName is overwritten if config files exist.  see below.
 paths.comparePath                   = paths.backstop + '/compare';
@@ -92,14 +92,14 @@ if(fs.existsSync(paths.activeCaptureConfigPath)){
     paths.bitmaps_test = config.paths.bitmaps_test || paths.bitmaps_test;
     paths.compareConfigFileName = config.paths.compare_data || paths.compareConfigFileName;
     paths.casper_scripts = config.paths.casper_scripts || null;
-    paths.ci_report = config.paths.ci_report || paths.ci_report;
+    paths.ci_report_path = config.paths.ci_report || paths.ci_report_path;
   }
 
   paths.portNumber = config.port || defaultPort;
   paths.casperFlags = config.casperFlags || null;
   paths.engine = config.engine || null;
   paths.report = config.report || null;
-  paths.ciReport = config.ci || paths.ci;
+  paths.ciReportOpts = config.ci || paths.ciReportOpts;
 }
 
 paths.compareReportURL = 'http://localhost:' + paths.portNumber + '/compare/';

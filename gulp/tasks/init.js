@@ -10,7 +10,7 @@ var paths = require('../util/paths');
 
 
 //MANAGE DEPENDENCIES
-gulp.task('init',function(cb){
+gulp.task('init',function(){
   
   //load missing bower components
   // if(!fs.existsSync(paths.comparePath+'/bower_components')){
@@ -18,6 +18,5 @@ gulp.task('init',function(cb){
   //   var bowerProcess = (process.platform === "win32" ? "bower.cmd" : "bower");
   //   spawn(bowerProcess,['install'],{cwd:paths.comparePath}).on('error', function(){console.log('\nBower process fail. :(  Please report this bug on github.\n');});
   // }
-  cb();
 
 });

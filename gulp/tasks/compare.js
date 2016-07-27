@@ -8,7 +8,7 @@ var junitWriter = new (require('junitwriter'))();
 
 gulp.task('compare', function (done) {
     var compareConfig = JSON.parse(fs.readFileSync(paths.compareConfigFileName, 'utf8')).compareConfig,
-    testSuite = paths.report && paths.report.indexOf( 'CI' ) > -1 && paths.ciReport.format === 'junit' && junitWriter.addTestsuite(paths.ciReport.testSuiteName),
+    testSuite = paths.report && paths.report.indexOf( 'CI' ) > -1 && paths.ciReportOpts.format === 'junit' && junitWriter.addTestsuite(paths.ciReportOpts.testSuiteName),
     testPairsLength;
 
     function updateProgress() {
@@ -26,8 +26,9 @@ gulp.task('compare', function (done) {
 
             // if the test report is enabled in the config
             if (testSuite) {
-                junitWriter.save(path.join(paths.ci_report, 'xunit.xml'), function() {
-                    console.log('\x1b[32m', 'Regression test report file (xunit.xml) is successfully created.', '\x1b[0m');
+                var reportFileName = paths.ciReportOpts.testReportFileName + '.xml' || 'xunit.xml';
+                junitWriter.save(path.join(paths.ci_report_path, reportFileName), function() {
+                    console.log('\x1b[32m', 'Regression test report file ('+ reportFileName + ') is successfully created.', '\x1b[0m');
                 });
             }
 
