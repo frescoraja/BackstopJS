@@ -13,10 +13,10 @@ compareApp.config( function( $routeProvider ){
 compareApp.controller('MainCtrl', function ($scope, $route, $routeParams, $q, $http, $filter) {
 
   var resembleTestConfig = {
-    errorColor: {red: 255, green: 0, blue: 255},
+    errorColor: {red: 150, green: 255, blue: 150},
     errorType: 'movement',
-    transparency: 0.1,
-    largeImageThreshold: 1200
+    transparency: 0.25,
+    largeImageThreshold: 1280
   };
 
   var defaultMisMatchThreshold = 1;
@@ -140,6 +140,7 @@ compareApp.controller('MainCtrl', function ($scope, $route, $routeParams, $q, $h
 
     var diff = resemble(testPair.a.src).compareTo(testPair.b.src).onComplete(function(diffData){
       testPair.report = JSON.stringify(diffData,null,2);
+      console.log(diffData);
       testPair.c.src = diffData.getImageDataUrl();
       testPair.processing=false;
       testPair.passed=(diffData.isSameDimensions && diffData.misMatchPercentage<testPair.meta.misMatchThreshold)?true:false;

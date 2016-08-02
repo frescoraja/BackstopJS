@@ -1,6 +1,6 @@
 {
   "name": "css-testing",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "BackstopJS: CSS visual regression testing",
   "scripts": {
     "genConfig": "gulp genConfig",

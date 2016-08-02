@@ -1,4 +1,3 @@
-
 var fs = require('fs');
 
 var selectorNotFoundPath = 'capture/resources/selectorNotFound_noun_164558_cc.png'
