@@ -86,7 +86,7 @@ gulp.task('test',['init'], function () {
     if(genReferenceMode){
       console.log('\nRun `$ npm run test` to generate diff report.\n')
     }else{
-      gulp.run('report');
+      console.log('\nRun `$npm run openReport` to see detailed diff report.\n');
     }
 
   });

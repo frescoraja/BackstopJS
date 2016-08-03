@@ -1,6 +1,6 @@
 {
   "name": "css-testing",
-  "version": "0.1.12",
+  "version": "0.1.14",
   "description": "BackstopJS: CSS visual regression testing",
   "scripts": {
     "genConfig": "gulp genConfig",
@@ -41,7 +41,6 @@
     "is-running": "~1.0.5",
     "junitwriter": "~0.3.1",
     "node-resemble-js": "0.0.4",
-    "phantomjs-prebuilt": "^2.1.7",
     "require-dir": "^0.1.0",
     "slimerjs": "^0.906.2",
     "underscore": "~1.6.0",
