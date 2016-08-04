@@ -37,7 +37,7 @@ if (config.debug) {
 }
 
 casper.on('remote.message', function(message) {
-  this.echo('remote console > ' + message);
+  this.echo('remote console > ' + message, "COMMENT");
 });
 
 casper.on('resource.received', function(resource) {
@@ -60,7 +60,7 @@ function capturePageSelectors(url,scenarios,viewports,bitmaps_reference,bitmaps_
 
 
   casper.on('remote.message', function(message) {
-      this.echo(message);
+      this.echo(message, "COMMENT");
       consoleBuffer = consoleBuffer + '\n' + message;
   });
 
@@ -95,9 +95,9 @@ function capturePageSelectors(url,scenarios,viewports,bitmaps_reference,bitmaps_
           }
           ,function(){//on done
             consoleBuffer = '';
-            casper.echo('Ready event received.');
+            casper.echo('Ready event received.', "INFO");
           }
-          ,function(){casper.echo('ERROR: casper timeout.')} //on timeout
+          ,function(){casper.echo('ERROR: casper timeout.', "ERROR")} //on timeout
           ,scriptTimeout
         );
         casper.wait(scenario.delay||1);
@@ -108,7 +108,7 @@ function capturePageSelectors(url,scenarios,viewports,bitmaps_reference,bitmaps_
 
         if (config.debug) {
           var src = this.evaluate(function() {return document.body.outerHTML; });
-          this.echo(src);
+          this.echo(src, "INFO_BAR");
         }
       });
 
@@ -128,7 +128,7 @@ function capturePageSelectors(url,scenarios,viewports,bitmaps_reference,bitmaps_
 
       this.then(function(){
 
-        this.echo('Screenshots for ' + vp.name + ' (' + (vp.width||vp.viewport.width) + 'x' + (vp.height||vp.viewport.height) + ')', 'info');
+        this.echo('Screenshots for ' + vp.name + ' (' + (vp.width||vp.viewport.width) + 'x' + (vp.height||vp.viewport.height) + ')', 'GREEN_BAR');
 
         //HIDE SELECTORS WE WANT TO AVOID
             if ( scenario.hasOwnProperty('hideSelectors') ) {
