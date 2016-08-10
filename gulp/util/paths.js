@@ -29,7 +29,7 @@ function getBackstopJSConfigPath() {
 }
 
 function getBackstopConfigFileName() {
-  var configPathArg = argv.backstopConfigFilePath || argv.configPath || null;
+  var configPathArg = argv.backstopConfigFilePath || argv.config || null;
   if(configPathArg) {
     var isAbsolutePath = configPathArg.charAt(0) === '/';
     var configPath = isAbsolutePath ? configPathArg : path.join(paths.backstop, configPathArg);
